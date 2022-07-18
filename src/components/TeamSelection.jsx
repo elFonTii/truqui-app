@@ -64,7 +64,13 @@ export default function TeamSelection() {
         className="text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-lg text-center mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 px-20 py-3.5 mt-10"
       >
         Iniciar
+        {/*Beta information */}
       </a>
+      <p className="text-gray-400 text-sm mt-2">
+        Esta es una versión{" "}
+        <span className="text-purple-400 text-sm">beta</span>, pueden existir
+        errores.
+      </p>
     </div>
   );
 }
