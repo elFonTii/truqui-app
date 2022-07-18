@@ -1,6 +1,8 @@
 import React from "react";
+import useGameHook from "../../hooks/useGame";
 
 export default function Navigator() {
+  const { handleEndGame } = useGameHook();
   return (
     <React.Fragment>
       <input type="checkbox" id="active"></input>
@@ -11,7 +13,9 @@ export default function Navigator() {
       <div className="wrapper">
         <ul>
           <li>
-            <a href="/">Volver a comenzar</a>
+            <a href="/" onClick={() => handleEndGame()}>
+              Volver a comenzar
+            </a>
           </li>
         </ul>
       </div>

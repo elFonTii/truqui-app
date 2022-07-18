@@ -15,13 +15,10 @@ export default function TeamSelection() {
     setIsLoading(true);
     setTimeout(() => {
       handleStartGame();
+      handleSetDuration(label);
       setIsLoading(false);
     }, 2000);
   };
-
-  React.useEffect(() => {
-    console.log(isLoading);
-  }, [isLoading]);
 
   return (
     <div className="container">
@@ -61,13 +58,13 @@ export default function TeamSelection() {
           {label} puntos
         </span>
       </label>
-      <button
+      <a
         onClick={startGame}
         type="button"
         className="text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-lg text-center mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 px-20 py-3.5 mt-10"
       >
         Iniciar
-      </button>
+      </a>
     </div>
   );
 }
