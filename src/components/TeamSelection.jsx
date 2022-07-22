@@ -2,37 +2,29 @@ import React from "react";
 import { TwitterPicker } from "react-color";
 import useGameHook from "../hooks/useGame";
 const button = require("../audios/button.mp3");
-const mainTheme = require("../audios/main-theme.mp3");
 
 export default function TeamSelection() {
   const [isChecked, setIsChecked] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const { game, handleSetDuration, handleStartGame } = useGameHook();
-  const buttonAudio = React.useRef(new Audio(button));
-  const mainThemeAudio = React.useRef(new Audio(mainTheme));
+  const [buttonAudio, setButtonAudio] = React.useState(new Audio(button));
+
   let label = "";
   isChecked ? (label = 20) : (label = 15);
 
   const startGame = () => {
     //add a timeout to simulate a loading state
     setIsLoading(true);
-    //Play the button sound
-    buttonAudio.current.play();
+    buttonAudio.play();
     setTimeout(() => {
       handleStartGame();
       handleSetDuration(label);
       setIsLoading(false);
-    }, 2000);
+    }, 1000);
   };
 
   //When the document loads, play the main theme
-  React.useEffect(() => {
-    document.addEventListener("DOMContentLoaded", () => {
-      game.started
-        ? mainThemeAudio.current.pause()
-        : mainThemeAudio.current.play();
-    });
-  }, []);
+  React.useEffect(() => {}, [game.started]);
 
   return (
     <div className="container">
