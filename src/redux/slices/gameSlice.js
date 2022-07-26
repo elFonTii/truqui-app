@@ -2,14 +2,19 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     started: false,
+    
     duration: 15,
     team_one: {
         color: "#7BDCB5",
         score: 0,
+        isInGood: false,
+        bgcolor: "#fff",
     },
     team_two: {
         color: "#EB144C",
         score: 0,
+        isInGood: false,
+        bgcolor: "#fff",
     },
     winner: null,
 };
@@ -19,20 +24,35 @@ const gameSlice = createSlice({
     initialState,
     reducers: {
         addPoint: (state, action) => {
-            const { team } = action.payload;
-            if (state[team].score >= 0 && state[team].score < state.duration * 2) {
-                state[team].score++;
-            }
+            const team = state[action.payload.team];
+            if (team.score >= 0 && team.score <= state.duration) {
+                team.score++;
+                if (team.score === state.duration && !team.isInGood) {
+                    team.isInGood = true;
+                    team.bgcolor = "#DDFFD4";
+                    team.score = 0;
+                }
 
-            if (state[team].score === state.duration * 2) {
-                state[team].score = 0;
-                state.winner = team;
+                if(team.score === state.duration && team.isInGood){
+                    state.winner = action.payload.team;
+                }
+
             }
         },
         removePoint: (state, action) => {
-            const { team } = action.payload;
-            if (state[team].score > 0 && state[team].score <= state.duration * 2) {
-                state[team].score--;
+            const team = state[action.payload.team];
+            if (team.score > 0 && team.score <= state.duration) {
+                team.score--;
+                if (team.score === state.duration && !team.isInGood) {
+                    team.isInGood = true;
+                    team.bgcolor = "#DDFFD4";
+                    team.score = 0;
+                }
+
+                if(team.score === state.duration && team.isInGood){
+                    state.winner = action.payload.team;
+                }
+
             }
         },
         setColor: (state, action) => {
@@ -53,6 +73,10 @@ const gameSlice = createSlice({
             state.team_two.score = 0;
             state.team_one.color = initialState.team_one.color;
             state.team_two.color = initialState.team_two.color;
+            state.team_one.isInGood = false;
+            state.team_two.isInGood = false;
+            state.team_one.bgcolor = initialState.team_one.bgcolor;
+            state.team_two.bgcolor = initialState.team_two.bgcolor;
             state.winner = null;
         }
     },
