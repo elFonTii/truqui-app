@@ -7,7 +7,7 @@ export default function TeamSelection() {
   const [isChecked, setIsChecked] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const { game, handleSetDuration, handleStartGame } = useGameHook();
-  const [buttonAudio, setButtonAudio] = React.useState(new Audio(button));
+  const [buttonAudio] = React.useState(new Audio(button));
 
   let label = "";
   isChecked ? (label = 20) : (label = 15);
@@ -28,6 +28,7 @@ export default function TeamSelection() {
 
   return (
     <div className="container">
+      {/*Loader*/}
       {isLoading && (
         <div className="loader">
           <div className="lds-circle">
@@ -36,17 +37,19 @@ export default function TeamSelection() {
         </div>
       )}
       <h1 className="title">Asignando colores</h1>
+      {/*Color selection */}
       <TeamSelector
-        title="Nosotros"
+        title={game.team_one.tag}
         teamName="team_one"
         color={game.team_one.color}
       />
       <TeamSelector
-        title="Ellos"
+        title={game.team_two.tag}
         teamName="team_two"
         color={game.team_two.color}
       />
       <h4 className="title">Duración de la partida</h4>
+      {/* Toggle match duration */}
       <label
         htmlFor="green-toggle"
         className="inline-flex relative items-center mr-5 cursor-pointer"
@@ -64,14 +67,16 @@ export default function TeamSelection() {
           {label} puntos
         </span>
       </label>
-      <a
+      {/* Start game button */}
+      <button
         onClick={startGame}
         type="button"
         className="text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-lg text-center mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 px-20 py-3.5 mt-10"
       >
         Iniciar
-        {/*Beta information */}
-      </a>
+      </button>
+
+      {/*Beta disclaimer */}
       <p className="text-gray-400 text-sm mt-2">
         Esta es una versión{" "}
         <span className="text-purple-400 text-sm">beta</span>, pueden existir
@@ -102,7 +107,7 @@ const TeamSelector = ({ title, teamName, color }) => {
         triangle="hide"
         width="205px"
         color={colors}
-        onChange={color => handleSetColor(teamName, color.hex)}
+        onChange={(color) => handleSetColor(teamName, color.hex)}
       />
       <div style={{ backgroundColor: color }} className="team-color mt-2"></div>
     </div>

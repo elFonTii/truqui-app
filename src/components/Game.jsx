@@ -3,10 +3,19 @@ import useGameHook from "../hooks/useGame";
 import TeamSelection from "./TeamSelection";
 import useWindowSize from "../hooks/useWindowSize";
 import Confetti from "react-confetti";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
+
+const victorySound = new Audio(require("../audios/victory.mp3"));
 
 export default function Game() {
   const { game, handleEndGame } = useGameHook();
   const { width, height } = useWindowSize();
+
+  React.useEffect(() => {
+    game.winner && victorySound.play();
+  }, [game.winner]);
+
   if (game.started) {
     if (game.winner) {
       return (
@@ -19,15 +28,15 @@ export default function Game() {
                 className="game-win-name"
                 style={{ color: game[game.winner].color }}
               >
-                {game.winner === "team_one" ? "Equipo 1" : "Equipo 2"}
+                {game.winner === "team_one" ? "Nosotros" : "Ellos"}
               </h5>
-              <a
+              <button
                 onClick={() => handleEndGame()}
                 type="button"
                 className="text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-lg text-center mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 px-20 py-3.5 mt-10"
               >
                 Reiniciar
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -56,13 +65,13 @@ const GameNavigator = () => {
           onClick={() => handleAddPoints("team_one")}
           className="game-navigator-button"
         >
-          +
+          <FontAwesomeIcon icon={faPlus} />
         </button>
         <button
           onClick={() => handleRemovePoints("team_one")}
           className="game-navigator-button"
         >
-          -
+          <FontAwesomeIcon icon={faMinus} />
         </button>
       </div>
       <div className="game-navigator-item">
@@ -70,13 +79,13 @@ const GameNavigator = () => {
           onClick={() => handleAddPoints("team_two")}
           className="game-navigator-button"
         >
-          +
+          <FontAwesomeIcon icon={faPlus} />
         </button>
         <button
           onClick={() => handleRemovePoints("team_two")}
           className="game-navigator-button"
         >
-          -
+          <FontAwesomeIcon icon={faMinus} />
         </button>
       </div>
     </div>
@@ -88,6 +97,7 @@ const TeamFrame = ({ team, game }) => {
     <div className="team-frame" style={{ backgroundColor: team.bgcolor }}>
       <div className="team-name">{team.name}</div>
       <div className="team-header" style={{ backgroundColor: team.color }}>
+        <h6 className="team-header-tag">{team.tag}</h6>
         <h5 className="team-score-header">{team.score}</h5>
       </div>
       <div style={{ width: "95%", display: "flex", justifyContent: "center" }}>
@@ -97,6 +107,7 @@ const TeamFrame = ({ team, game }) => {
   );
 };
 
+//Legacy Score Component
 /* 
 const Score = ({ team, game }) => {
   let score_arr = [];
@@ -120,12 +131,12 @@ const Score = ({ team, game }) => {
 */
 
 const Score = ({ team, game }) => {
-  const borderSize = "15px solid",
+  const borderSize = "20px solid",
     borderColor = team.color;
   const border = `${borderSize} ${borderColor}`;
   const cubeMapping = {
     map: {
-      0: { border: "15px solid transparent" },
+      0: { borderTop: "0px solid transparent" },
       1: { borderTop: border },
       2: { borderTop: border, borderLeft: border },
       3: {
@@ -148,10 +159,15 @@ const Score = ({ team, game }) => {
       return (
         <div className="score-container">
           <div className="score-item" style={cubeMapping.map[team.score]}>
-            {team.score === 5 && (
+            {team.score === 5 ? (
               <div
                 className="score-line"
                 style={{ backgroundColor: team.color, width: borderSize }}
+              ></div>
+            ) : (
+              <div
+                className="score-line"
+                style={{ backgroundColor: "transparent", width: borderSize }}
               ></div>
             )}
           </div>
@@ -168,10 +184,15 @@ const Score = ({ team, game }) => {
             ></div>
           </div>
           <div className="score-item" style={cubeMapping.map[team.score - 5]}>
-            {team.score === 10 && (
+            {team.score === 10 ? (
               <div
                 className="score-line"
                 style={{ backgroundColor: team.color, width: borderSize }}
+              ></div>
+            ) : (
+              <div
+                className="score-line"
+                style={{ backgroundColor: "transparent", width: borderSize }}
               ></div>
             )}
           </div>
@@ -194,10 +215,15 @@ const Score = ({ team, game }) => {
             ></div>
           </div>
           <div className="score-item" style={cubeMapping.map[team.score - 10]}>
-            {team.score === 15 && (
+            {team.score === 15 ? (
               <div
                 className="score-line"
                 style={{ backgroundColor: team.color, width: borderSize }}
+              ></div>
+            ) : (
+              <div
+                className="score-line"
+                style={{ backgroundColor: "transparent", width: borderSize }}
               ></div>
             )}
           </div>
@@ -226,10 +252,15 @@ const Score = ({ team, game }) => {
             ></div>
           </div>
           <div className="score-item" style={cubeMapping.map[team.score - 15]}>
-            {team.score === 20 && (
+            {team.score === 20 ? (
               <div
                 className="score-line"
                 style={{ backgroundColor: team.color, width: borderSize }}
+              ></div>
+            ) : (
+              <div
+                className="score-line"
+                style={{ backgroundColor: "transparent", width: borderSize }}
               ></div>
             )}
           </div>

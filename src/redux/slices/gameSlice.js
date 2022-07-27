@@ -5,12 +5,14 @@ const initialState = {
     
     duration: 15,
     team_one: {
+        tag: "Nosotros",
         color: "#7BDCB5",
         score: 0,
         isInGood: false,
         bgcolor: "#fff",
     },
     team_two: {
+        tag: "Ellos",
         color: "#EB144C",
         score: 0,
         isInGood: false,

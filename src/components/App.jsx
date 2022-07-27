@@ -1,5 +1,4 @@
 import "../styles/App.css";
-import TeamSelection from "./TeamSelection";
 import Navigator from "./Partials/Navigator";
 import Game from "./Game";
 
